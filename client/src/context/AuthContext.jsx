@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
@@ -8,67 +8,79 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const isAuthenticated = !!user;
+
+  console.log("Current User:", user);
   useEffect(() => {
-    // Check if user is logged in on initial load
     const checkUserLoggedIn = async () => {
       try {
-        const token = localStorage.getItem('token');
-        
+        const token = localStorage.getItem("token");
+
         if (!token) {
           setLoading(false);
           return;
         }
-        
-        const res = await axios.get('/api/auth/me', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        
+
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/auth/me`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
         setUser(res.data);
-        setLoading(false);
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Small delay for state update
+
       } catch (err) {
-        localStorage.removeItem('token');
-        setError(err.response?.data?.message || 'Authentication failed');
+        localStorage.removeItem("token");
+        setError(err.response?.data?.message || "Session expired. Please log in again.");
+      } finally {
         setLoading(false);
       }
     };
-    
+
     checkUserLoggedIn();
   }, []);
 
-  const login = async (email, password) => {
+  const login = async (email) => {
     try {
       setLoading(true);
-      const res = await axios.post('/api/auth/login', { email, password });
-      localStorage.setItem('token', res.data.token);
-      setUser(res.data.user);
       setError(null);
+      console.log("Logging in...");
+      console.log(`${import.meta.env.VITE_API_BASE_URL}`)
+  
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, {
+        email // it contains email and password both
+      });
+
+      console.log("Logged in successfully", res.data);
+
+      localStorage.setItem("token", res.data.token);
+      setUser(res.data.user);
+      await new Promise((resolve) => setTimeout(resolve, 100)); // Small delay for state update
       return true;
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || "Invalid credentials");
       return false;
     } finally {
       setLoading(false);
     }
   };
-  
+
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
-  };
-  
-  const isAdmin = () => {
-    return user && user.role === 'admin';
+    setError(null);
   };
 
+  const isAdmin = () => {
+    console.log("Checking isAdmin:", user?.role);
+    return user?.role === "admin";
+  };
+  
+  
+
+  // console.log(user, loading, error, login, logout,isAdmin )
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      loading, 
-      error, 
-      login, 
-      logout, 
-      isAdmin 
-    }}>
+    <AuthContext.Provider value={{ user, loading, error, login, logout,isAdmin,isAuthenticated  }}>
       {children}
     </AuthContext.Provider>
   );

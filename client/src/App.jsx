@@ -21,12 +21,14 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Dashboard from './pages/admin/Dashboard';
 import NotFound from './pages/NotFound';
+import PrivateRoute from './context/PrivateRoute';
 
 // Admin pages with lazy loading
-// const AdminNews = React.lazy(() => import('./pages/admin/AdminNews'));
-// const AdminEvents = React.lazy(() => import('./pages/admin/AdminEvents'));
-// const AdminGallery = React.lazy(() => import('./pages/admin/AdminGallery'));
-// const AdminAdmissions = React.lazy(() => import('./pages/admin/AdminAdmissions'));
+const AdminNews = React.lazy(() => import('./pages/admin/AdminNews'));
+const AdminEvents = React.lazy(() => import('./pages/admin/AdminEvents'));
+const AdminGallery = React.lazy(() => import('./pages/admin/AdminGallery'));
+const AdminAdmissions = React.lazy(() => import('./pages/admin/AdminAdmissions'));
+
 
 function App() {
   return (
@@ -35,6 +37,7 @@ function App() {
         <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow">
+          
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
@@ -49,39 +52,39 @@ function App() {
               <Route path="/admissions" element={<Admissions />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
-        
-
-              
+               
               
               <Route path="/admin/dashboard" element={
-                <React.Suspense fallback={<div>Loading...</div>}>
-                <Dashboard />
-                </React.Suspense>
-                } />
-                {/*
+                <PrivateRoute adminOnly={true}> 
+                  <Dashboard />
+                </PrivateRoute>
+              } />
+              
+              
               <Route path="/admin/news" element={
-                <React.Suspense fallback={<div>Loading...</div>}>
-                  <AdminNews />
-                </React.Suspense>
-              } />
-              <Route path="/admin/events" element={
-                <React.Suspense fallback={<div>Loading...</div>}>
+                <PrivateRoute adminOnly={true}>
+                <AdminNews />
+                </PrivateRoute>
+                } />
+                <Route path="/admin/events" element={
+                  <PrivateRoute adminOnly={true}>
                   <AdminEvents />
-                </React.Suspense>
-              } />
+                  </PrivateRoute>
+                  } />
+               
               <Route path="/admin/gallery" element={
-                <React.Suspense fallback={<div>Loading...</div>}>
+                <PrivateRoute adminOnly={true}>
                   <AdminGallery />
-                </React.Suspense>
+                </PrivateRoute>
               } />
               <Route path="/admin/admissions" element={
-                <React.Suspense fallback={<div>Loading...</div>}>
+                <PrivateRoute adminOnly={true}>
                   <AdminAdmissions />
-                </React.Suspense>
+                </PrivateRoute>
               } />
               
            
-              */}
+             
               
               <Route path="*" element={<NotFound />} />
             </Routes>

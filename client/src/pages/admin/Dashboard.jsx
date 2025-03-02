@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 // Admin components
-// import StatsCard from '../../components/admin/StatsCard';
-// import RecentActivityCard from '../../components/admin/RecentActivityCard';
+import StatsCard from './StatsCard';
+import RecentActivityCard from './RecentActivityCard';
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -65,7 +65,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 pt-30">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
@@ -81,7 +81,7 @@ const Dashboard = () => {
         </div>
       </div>
       
-      {/* 
+     
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <StatsCard 
           title="News Articles" 
@@ -112,7 +112,7 @@ const Dashboard = () => {
           color="bg-purple-500"
         />
       </div>
-      */}
+      
 
       {/* Admin Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">

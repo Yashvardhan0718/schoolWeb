@@ -21,11 +21,14 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+      // await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
       
-      if (credentials.email === 'admin@example.com' && credentials.password === 'password123') {
-        login({ id: '1', name: 'Admin User', email: credentials.email, role: 'admin' });
-        navigate('/admin/dashboard');
+      if (credentials.email === 'vinay@a.com' && credentials.password === '1') {
+      const success = await  login({ id: '1', name: 'Admin User', email: credentials.email, password: credentials.password , role: 'admin' });
+      if (success){
+          console.log('success in navigating')
+          navigate('/admin/dashboard');
+        }
       } else {
         throw new Error('Invalid email or password');
       }
