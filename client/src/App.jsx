@@ -8,19 +8,19 @@ import Footer from './components/layout/Footer';
 
 // Page components
 import Home from './pages/Home';
-// import About from './pages/About';
-// import VisionMission from './pages/VisionMission';
-// import PrincipalMessage from './pages/PrincipalMessage';
-// import News from './pages/News';
-// import NewsDetail from './pages/NewsDetail';
-// import Events from './pages/Events';
-// import EventDetail from './pages/EventDetail';
-// import Gallery from './pages/Gallery';
-// import Admissions from './pages/Admissions';
-// import Contact from './pages/Contact';
-// import Login from './pages/Login';
-// import Dashboard from './pages/admin/Dashboard';
-// import NotFound from './pages/NotFound';
+import About from './pages/About';
+import VisionMission from './pages/VisionMission';
+import PrincipalMessage from './pages/PrincipalMessage';
+import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
+import Events from './pages/Event';
+import EventDetail from './pages/EventDetail';
+import Gallery from './pages/Gallery';
+import Admissions from './pages/Admissions';
+import Contact from './pages/Contact';
+import Login from './pages/Login';
+import Dashboard from './pages/admin/Dashboard';
+import NotFound from './pages/NotFound';
 
 // Admin pages with lazy loading
 // const AdminNews = React.lazy(() => import('./pages/admin/AdminNews'));
@@ -38,7 +38,6 @@ function App() {
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
-              {/*
               <Route path="/about" element={<About />} />
               <Route path="/vision-mission" element={<VisionMission />} />
               <Route path="/principal-message" element={<PrincipalMessage />} />
@@ -50,13 +49,16 @@ function App() {
               <Route path="/admissions" element={<Admissions />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
+        
+
               
-             
+              
               <Route path="/admin/dashboard" element={
                 <React.Suspense fallback={<div>Loading...</div>}>
-                  <Dashboard />
+                <Dashboard />
                 </React.Suspense>
-              } />
+                } />
+                {/*
               <Route path="/admin/news" element={
                 <React.Suspense fallback={<div>Loading...</div>}>
                   <AdminNews />
@@ -79,8 +81,9 @@ function App() {
               } />
               
            
-              <Route path="*" element={<NotFound />} />
               */}
+              
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />
